@@ -15,8 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+#create a router for expense viewset
+from rest_framework.routers import DefaultRouter
+from expenses.views import ExpenseViewSet 
 
+router = DefaultRouter()
+router.register(r'expenses', ExpenseViewSet, basename='expense')
 urlpatterns = [
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
 ]
+
+admin.site.site_header = "Expense Calculator Admin"
+admin.site.site_title = "Expense Calculator Admin Portal"
+admin.site.index_title = "Welcome to Expense Calculator Admin Portal"   
